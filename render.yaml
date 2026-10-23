@@ -1,0 +1,35 @@
+# ============================================================
+# Render Blueprint Configuration (render.yaml)
+# Deploy Smart Integrated Healthcare Response & Emergency System
+# Syllabus Unit 6: Hosting using Render
+# ============================================================
+
+services:
+  # Unified Web Service (Express API + Static React Frontend)
+  - type: web
+    name: emergency-dispatch-app
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm --prefix client install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MYSQL_HOST
+        sync: false
+      - key: MYSQL_PORT
+        value: 3306
+      - key: MYSQL_USER
+        sync: false
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: MYSQL_DATABASE
+        value: emergency_dispatch
+      - key: MONGODB_URI
+        sync: false

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syllabus Unit 1 — Semantic HTML5 & Validated Forms</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0D1117; color: #E6EDF3; margin: 0; padding: 24px; }
+    .container { max-width: 720px; margin: 0 auto; background: #161B22; border: 1px solid #30363D; border-radius: 12px; padding: 24px; }
+    header, section, article, footer { margin-bottom: 20px; }
+    header { border-bottom: 1px solid #30363D; padding-bottom: 12px; }
+    fieldset { border: 1px solid #30363D; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    legend { padding: 0 8px; color: #58A6FF; font-weight: 600; }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; margin-bottom: 4px; font-size: 0.85rem; color: #8B949E; }
+    input, select, textarea { width: 100%; box-sizing: border-box; padding: 8px 12px; background: #0D1117; border: 1px solid #30363D; border-radius: 6px; color: #FFF; font-size: 0.9rem; }
+    input:invalid:focus { border-color: #F85149; }
+    input:valid:focus { border-color: #3FB950; }
+    button { background: #238636; color: #FFF; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .note { font-size: 0.8rem; color: #8B949E; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <!-- Semantic Elements: <header>, <section>, <article>, <footer> -->
+  <div class="container">
+    <header>
+      <h1>Emergency Incident Call Intake Form</h1>
+      <p class="note">Demonstrates HTML5 Document Structure, Semantic Tags, and Native Form Constraints</p>
+    </header>
+
+    <section>
+      <article>
+        <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Native Form Validation Passed!');">
+          <fieldset>
+            <legend>Caller Demographics</legend>
+            <div class="form-group">
+              <label for="callerName">Full Name (Required, min 3 chars):</label>
+              <input type="text" id="callerName" name="callerName" required minlength="3" maxlength="60" placeholder="e.g. Jane Doe">
+            </div>
+            <div class="form-group">
+              <label for="callerPhone">Phone Number (Required, pattern: 10 digits):</label>
+              <input type="tel" id="callerPhone" name="callerPhone" required pattern="[0-9]{10}" placeholder="e.g. 9876543210">
+              <div class="note">Regex pattern: <code>[0-9]{10}</code></div>
+            </div>
+            <div class="form-group">
+              <label for="callerEmail">Contact Email (Optional native email type):</label>
+              <input type="email" id="callerEmail" name="callerEmail" placeholder="name@emergency.org">
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Incident Parameters</legend>
+            <div class="form-group">
+              <label for="incidentType">Emergency Category:</label>
+              <select id="incidentType" name="incidentType" required>
+                <option value="">-- Choose Category --</option>
+                <option value="Cardiac">Cardiac Arrest</option>
+                <option value="Trauma">Trauma / Collision</option>
+                <option value="Respiratory">Severe Respiratory</option>
+                <option value="Stroke">Cerebral Stroke</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="severityRange">Severity Score (Range 1-10):</label>
+              <input type="range" id="severityRange" name="severityRange" min="1" max="10" value="8" oninput="this.nextElementSibling.value = this.value">
+              <output>8</output>
+            </div>
+            <div class="form-group">
+              <label for="incidentDate">Incident Timestamp (Native datetime-local):</label>
+              <input type="datetime-local" id="incidentDate" name="incidentDate" required>
+            </div>
+            <div class="form-group">
+              <label for="location">Exact Incident Address (Min 10 chars):</label>
+              <textarea id="location" name="location" rows="3" required minlength="10" placeholder="Street, landmark, cross street..."></textarea>
+            </div>
+          </fieldset>
+
+          <button type="submit">Submit Emergency Dispatch Request</button>
+        </form>
+      </article>
+    </section>
+
+    <footer>
+      <p class="note">FSD Syllabus Unit 1 Deliverable: Validated HTML5 semantic document.</p>
+    </footer>
+  </div>
+</body>
+</html>

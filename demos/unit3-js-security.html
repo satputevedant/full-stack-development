@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syllabus Unit 3 — DOM Security & RegExp Validation</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0D1117; color: #E6EDF3; padding: 24px; max-width: 800px; margin: 0 auto; }
+    .card { background: #161B22; border: 1px solid #30363D; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+    input, textarea { width: 100%; box-sizing: border-box; padding: 8px 12px; background: #0D1117; border: 1px solid #30363D; border-radius: 6px; color: #FFF; margin-bottom: 12px; }
+    button { background: #1F6FEB; color: #FFF; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .status { padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 0.85rem; }
+    .success { background: rgba(56, 139, 253, 0.15); border: 1px solid #388BFD; color: #58A6FF; }
+    .danger { background: rgba(248, 81, 73, 0.15); border: 1px solid #F85149; color: #F85149; }
+    .display-box { background: #0D1117; border: 1px dashed #30363D; padding: 12px; border-radius: 6px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>DOM Security & Script Injection Sanitizer</h1>
+  <p style="color: #8B949E;">Demonstrating Unit 3: Regular Expression validation and XSS prevention.</p>
+
+  <!-- Section 1: RegExp Validation -->
+  <div class="card">
+    <h2>1. RegExp Input Validation</h2>
+    <label>Enter Emergency Dispatcher Phone (10 digits):</label>
+    <input type="text" id="phoneInput" placeholder="e.g. 9876543210">
+
+    <label>Enter Official Email:</label>
+    <input type="text" id="emailInput" placeholder="e.g. dispatch@ems.gov">
+
+    <button onclick="testRegExp()">Validate Form Inputs</button>
+    <div id="validationResult"></div>
+  </div>
+
+  <!-- Section 2: XSS Sanitization -->
+  <div class="card">
+    <h2>2. XSS & Script Injection Prevention</h2>
+    <p style="font-size: 0.85rem; color: #8B949E;">Try entering a malicious payload like: <code>&lt;script&gt;alert('Hacked')&lt;/script&gt;Emergency Notice</code></p>
+    <textarea id="payloadInput" rows="3">&lt;script&gt;alert('XSS Script Execution Attempt!')&lt;/script&gt;Severe Highway Pileup reported at Exit 4.</textarea>
+
+    <div style="display: flex; gap: 10px;">
+      <button onclick="renderUnsafe()" style="background: #DA3633;">Test Unsafe (innerHTML)</button>
+      <button onclick="renderSecure()" style="background: #238636;">Test Secure (Sanitized + textContent)</button>
+    </div>
+
+    <h3 style="margin-top: 16px;">Rendered Output:</h3>
+    <div id="outputDisplay" class="display-box">Awaiting test...</div>
+    <div id="securityNotice" class="status success" style="margin-top: 12px; display: none;"></div>
+  </div>
+
+  <script src="unit3-sanitizer.js"></script>
+  <script>
+    function testRegExp() {
+      const phone = document.getElementById('phoneInput').value.trim();
+      const email = document.getElementById('emailInput').value.trim();
+      const res = document.getElementById('validationResult');
+
+      const isPhoneValid = Patterns.phone.test(phone);
+      const isEmailValid = Patterns.email.test(email);
+
+      if (isPhoneValid && isEmailValid) {
+        res.className = 'status success';
+        res.innerHTML = '<strong>Success:</strong> Both Phone (<code>' + phone + '</code>) and Email (<code>' + email + '</code>) passed RegExp validation!';
+      } else {
+        res.className = 'status danger';
+        res.innerHTML = '<strong>Validation Failed:</strong> ' +
+          (!isPhoneValid ? 'Phone must be exactly 10 digits. ' : '') +
+          (!isEmailValid ? 'Email format is invalid.' : '');
+      }
+    }
+
+    function renderUnsafe() {
+      const raw = document.getElementById('payloadInput').value;
+      const target = document.getElementById('outputDisplay');
+      target.innerHTML = raw; // Vulnerable to DOM injection
+      const notice = document.getElementById('securityNotice');
+      notice.style.display = 'block';
+      notice.className = 'status danger';
+      notice.textContent = 'Rendered via innerHTML! If script tags or event handlers were evaluated, security was breached.';
+    }
+
+    function renderSecure() {
+      const raw = document.getElementById('payloadInput').value;
+      const clean = sanitizeText(raw);
+      const target = document.getElementById('outputDisplay');
+      renderSafe(target, clean); // Safe using textContent + entity neutralization
+
+      const notice = document.getElementById('securityNotice');
+      notice.style.display = 'block';
+      notice.className = 'status success';
+      notice.textContent = 'SECURE: Input was neutralized using sanitizeText() and rendered with DOM textContent. Zero script execution possible.';
+    }
+  </script>
+</body>
+</html>

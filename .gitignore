@@ -1,0 +1,30 @@
+# Node dependencies
+node_modules/
+dist/
+client/dist/
+
+# Java compiled classes
+*.class
+target/
+*.war
+
+# Environment files
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Uploads directory contents
+server/uploads/*
+!server/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+.~lock.*#

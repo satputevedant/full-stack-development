@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syllabus Unit 2 — CSS Selectors, Box Model, Flexbox & Grid</title>
+  <link rel="stylesheet" href="unit2-styles.css">
+</head>
+<body>
+  <!-- Flexbox Header -->
+  <header class="flex-header">
+    <div class="flex-row">
+      <div style="width: 28px; height: 28px; background: #FF453A; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold;">🚨</div>
+      <h1 style="margin: 0; font-size: 1.4rem;">Emergency Fleet Dispatch Layout</h1>
+    </div>
+    <div id="status-indicator">● Fleet Online (Grid Active)</div>
+  </header>
+
+  <!-- Box Model Explanation Card -->
+  <div class="box-model-demo">
+    <div class="section-title">CSS Box Model Anatomy</div>
+    <p style="margin: 0; font-size: 0.9rem;">
+      This container illustrates: <strong>Content</strong> (this text) surrounded by
+      <strong>Padding</strong> (16px blue zone), encased in a <strong>Border</strong> (2px dashed stroke),
+      with an outer <strong>Margin</strong> (20px separation).
+    </p>
+  </div>
+
+  <!-- Mobile-First Responsive CSS Grid -->
+  <h2 class="section-title">Responsive Fleet Grid (Mobile: 1 Col → Tablet: 2 Col → Desktop: 4 Col)</h2>
+  <div class="responsive-grid">
+    <div class="grid-card">
+      <h3 style="margin-top:0;">AMB-101</h3>
+      <p style="color: #30D158;">Status: Available</p>
+      <small>Type: ALS Critical Care</small>
+    </div>
+    <div class="grid-card">
+      <h3 style="margin-top:0;">AMB-102</h3>
+      <p style="color: #FF9F0A;">Status: Dispatched</p>
+      <small>Type: BLS Standard</small>
+    </div>
+    <div class="grid-card">
+      <h3 style="margin-top:0;">AMB-103</h3>
+      <p style="color: #FF453A;">Status: At Scene</p>
+      <small>Type: Air Evac Helicopter</small>
+    </div>
+    <div class="grid-card">
+      <h3 style="margin-top:0;">AMB-104</h3>
+      <p style="color: #30D158;">Status: Available</p>
+      <small>Type: Rapid Response SUV</small>
+    </div>
+    <div class="grid-card grid-card-span2">
+      <h3 style="margin-top:0;">Central Trauma Hospital</h3>
+      <p>Available ICU Beds: 18 / 30 · Trauma Level 1 Ready</p>
+    </div>
+    <div class="grid-card grid-card-span2">
+      <h3 style="margin-top:0;">Eastside General Clinic</h3>
+      <p>Available Ward Beds: 45 / 80 · General Receiving</p>
+    </div>
+  </div>
+
+  <footer style="margin-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; font-size: 0.8rem; color: #8B949E;">
+    FSD Unit 2 Deliverable: Responsive multi-viewport operational page built with Flexbox and CSS Grid.
+  </footer>
+</body>
+</html>

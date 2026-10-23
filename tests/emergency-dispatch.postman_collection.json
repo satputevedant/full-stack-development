@@ -1,0 +1,235 @@
+{
+  "info": {
+    "name": "Smart Emergency Dispatch System — Full Stack APIs",
+    "_postman_id": "ems-fsd-postman-collection-2026",
+    "description": "Comprehensive Postman test collection for Smart Integrated Healthcare Response & Emergency System (SIU FSD Syllabus Units 1-6)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. System Health & Diagnostics",
+      "item": [
+        {
+          "name": "Healthcheck",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health"
+          }
+        },
+        {
+          "name": "Debug & Environment",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/debug"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Authentication Flow (Unit 6)",
+      "item": [
+        {
+          "name": "Register Operator",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"dispatch_officer\",\n  \"email\": \"officer@emergency.gov\",\n  \"password\": \"SecurePass2026!\",\n  \"role\": \"dispatcher\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/register"
+          }
+        },
+        {
+          "name": "Login Operator",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) pm.collectionVariables.set('authToken', json.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"dispatch_officer\",\n  \"password\": \"SecurePass2026!\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Get Current User Profile (Protected)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+            "url": "{{baseUrl}}/api/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Emergency Operations (MySQL Core)",
+      "item": [
+        {
+          "name": "Get Operational KPIs",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/stats"
+          }
+        },
+        {
+          "name": "Get Active Incidents",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/incidents"
+          }
+        },
+        {
+          "name": "Get All Incidents History",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/incidents/all"
+          }
+        },
+        {
+          "name": "Report New Emergency Incident",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"caller\": \"Officer Dave\",\n  \"phone\": \"9876543210\",\n  \"type\": \"Cardiac Arrest\",\n  \"severity\": \"Critical\",\n  \"address\": \"77 Ocean Boulevard, Central\",\n  \"description\": \"Sudden cardiac arrest at boardwalk, CPR initiated.\",\n  \"ambulanceId\": 1,\n  \"responderId\": 1\n}"
+            },
+            "url": "{{baseUrl}}/api/dispatch"
+          }
+        },
+        {
+          "name": "Quick Dispatch Pending Incident",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quickDispatch\": true,\n  \"incidentId\": 3,\n  \"ambulanceId\": 1,\n  \"responderId\": 2\n}"
+            },
+            "url": "{{baseUrl}}/api/dispatch"
+          }
+        },
+        {
+          "name": "Advance Dispatch Lifecycle Status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"At Scene\"\n}"
+            },
+            "url": "{{baseUrl}}/api/dispatches/1/status"
+          }
+        },
+        {
+          "name": "Get Ambulances Fleet",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/ambulances"
+          }
+        },
+        {
+          "name": "Get Active Responders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/responders"
+          }
+        },
+        {
+          "name": "Get Hospitals & Bed Capacities",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/hospitals"
+          }
+        },
+        {
+          "name": "Get System Audit Log (Triggers)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/history"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. MongoDB Supplementary Operations (Unit 4)",
+      "item": [
+        {
+          "name": "Get Incident Notes",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/incidents/1/notes"
+          }
+        },
+        {
+          "name": "Create Incident Note with 1:1 Dispatch Summary",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"Patient rhythm converted to sinus rhythm after 150J defibrillation.\",\n  \"author\": \"Paramedic Chen\",\n  \"tags\": [\"Cardiac\", \"Defibrillator\", \"Stabilized\"],\n  \"priority\": \"Critical\",\n  \"dispatchSummary\": {\n    \"ambulanceAssigned\": \"AMB-101\",\n    \"estimatedArrivalMin\": 3,\n    \"hospitalNotified\": true,\n    \"primaryParamedic\": \"Dr. Michael Chen\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/api/incidents/1/notes"
+          }
+        },
+        {
+          "name": "Get Tag Frequencies (Aggregation Pipeline)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tags/summary"
+          }
+        },
+        {
+          "name": "Demonstrate 1:1 & M:N NoSQL Models",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/relationships/demo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. File Uploads & Alerts (Unit 3)",
+      "item": [
+        {
+          "name": "Send Emergency Alert Email",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"trauma-er@hospital.local\",\n  \"subject\": \"🚨 URGENT: Inbound Critical Trauma Incident #1\",\n  \"incidentId\": 1,\n  \"details\": \"Adult male with severe cardiac distress, ETA 4 mins.\"\n}"
+            },
+            "url": "{{baseUrl}}/api/alerts/email"
+          }
+        }
+      ]
+    }
+  ]
+}

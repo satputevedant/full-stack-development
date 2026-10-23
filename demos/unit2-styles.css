@@ -1,0 +1,92 @@
+/* ============================================================
+   Syllabus Unit 2: CSS Styling Basics, Box Model,
+   Flexbox, CSS Grid & Mobile-First Responsive Design
+   ============================================================ */
+
+/* 1. Element Selector */
+body {
+  margin: 0;
+  padding: 16px;
+  background-color: #0F141C;
+  color: #F0F4F8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+/* 2. Box Model Demonstration Class */
+.box-model-demo {
+  /* Margin: External spacing */
+  margin: 20px 0;
+  /* Border: Boundary stroke */
+  border: 2px dashed #0A84FF;
+  /* Padding: Internal spacing between border and content */
+  padding: 16px;
+  background-color: rgba(10, 132, 255, 0.1);
+  border-radius: 8px;
+  box-sizing: border-box; /* Standard box model sizing */
+}
+
+/* 3. Class and ID Selectors */
+.section-title {
+  color: #58A6FF;
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+#status-indicator {
+  font-weight: bold;
+  color: #30D158;
+}
+
+/* 4. Flexbox Alignment: Header & Controls */
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.flex-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* 5. Mobile-First CSS Grid Layout */
+/* Default (Mobile view): Single column */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.grid-card {
+  background: #18202C;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+/* Tablet Media Query (min-width: 600px) */
+@media (min-width: 600px) {
+  body {
+    padding: 24px;
+  }
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop Media Query (min-width: 992px) */
+@media (min-width: 992px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .grid-card-span2 {
+    grid-column: span 2;
+  }
+}
